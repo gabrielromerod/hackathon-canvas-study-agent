@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 3,
+  "course": {
+    "id": "50427",
+    "title": "Calculus I · Example course",
+    "modulesUrl": "https://msjc.instructure.com/courses/50427/modules",
+    "modules": [
+      {
+        "id": "1",
+        "title": "Week 1 · Functions and graphs",
+        "week": 1,
+        "sections": [],
+        "lessons": [
+          {
+            "id": "11",
+            "title": "Basic classes of functions",
+            "type": "Page",
+            "position": 1,
+            "url": "https://msjc.instructure.com/courses/50427/modules/items/11",
+            "content": {
+              "status": "loaded",
+              "format": "markdown",
+              "markdown": "# Basic classes of functions\n\nA function associates each input with one output.\n\n## Learning objectives\n\n- Identify polynomial and rational functions.\n- Compare a function with its graph.\n- Recognize domains and ranges."
+            }
+          },
+          {
+            "id": "12",
+            "title": "Practice problems",
+            "type": "Assignment",
+            "position": 2,
+            "points": 8,
+            "content": { "status": "link_only", "format": "link" }
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "title": "Week 2 · Limits and continuity",
+        "week": 2,
+        "sections": [],
+        "lessons": [
+          {
+            "id": "21",
+            "title": "Introduction to limits",
+            "type": "Page",
+            "position": 1,
+            "content": {
+              "status": "loaded",
+              "format": "markdown",
+              "markdown": "# Introduction to limits\n\nCompare the values of a function as its input approaches a particular point.\n\n## Notes\n\nUse a table, a graph, and an algebraic expression to explore the same behavior."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "extractedAt": "2026-10-23T18:00:00Z",
+  "summary": { "lessonCount": 3, "sectionCount": 0 },
+  "warnings": []
+}

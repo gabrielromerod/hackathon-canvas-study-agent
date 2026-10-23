@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Study Agent",
+  "version": "0.6.0",
+  "minimum_chrome_version": "141",
+  "description": "Your Canvas course alongside you: local conversations, Markdown sources, file downloads, and structured JSON export.",
+  "permissions": ["sidePanel", "scripting", "offscreen", "unlimitedStorage"],
+  "host_permissions": [
+    "https://msjc.instructure.com/*",
+    "https://huggingface.co/*",
+    "https://*.hf.co/*",
+    "https://*.huggingface.co/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'; connect-src 'self' https://msjc.instructure.com https://huggingface.co https://*.huggingface.co https://*.hf.co"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open Study Agent"
+  }
+}

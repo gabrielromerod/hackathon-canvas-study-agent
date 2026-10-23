@@ -1,0 +1,107 @@
+Canvas Study Agent — third-party notices
+Prepared for the v0.6.0 local-AI implementation, 2026-10-23.
+
+This file identifies third-party software and data. It does not change their
+licenses or imply endorsement by their authors. Preserve the accompanying full
+license texts and generated JavaScript .LEGAL.txt files when distributing a build.
+
+Runtime software
+----------------
+@litert-lm/core 0.18.0 — Apache-2.0
+Copyright 2026 The ODML Authors (published JavaScript source headers).
+Source: https://github.com/google-ai-edge/LiteRT-LM
+License: litert-lm.txt
+The npm package includes the JavaScript API and prebuilt WebAssembly runtime.
+Its package metadata declares Apache-2.0 but does not ship a root LICENSE file.
+The included Apache text was obtained from the upstream LICENSE at commit
+3bd5021c306647b08893e516b7dc3434df2c7aa6. This identifies the retrieved license
+text, not a claim that this commit produced the 0.18.0 binary. No root NOTICE
+file was present at that upstream commit.
+
+@litertjs/wasm-utils 2.6.0 — Apache-2.0
+Source: https://github.com/google-ai-edge/LiteRT
+License: litert-wasm-utils.txt
+The installed transitive package declares Apache-2.0 but does not include a root
+LICENSE file. The included Apache text was retrieved from the upstream LICENSE
+at commit 2924e0491acc2d9587b3502414fce136a5bc0c44. No root NOTICE file was
+present at that commit.
+
+@huggingface/tokenizers 0.2.0 — Apache-2.0
+Source: https://github.com/huggingface/tokenizers.js
+License: huggingface-tokenizers.txt, copied from the installed package.
+
+@huggingface/jinja 0.5.10 — MIT
+Copyright (c) 2023 Hugging Face.
+Source: https://github.com/huggingface/huggingface.js
+License: huggingface-jinja.txt, copied from the installed package.
+
+@noble/hashes 2.0.1 — MIT
+Copyright (c) 2022 Paul Miller (https://paulmillr.com).
+Source: https://github.com/paulmillr/noble-hashes
+License: noble-hashes.txt, copied from the installed package.
+
+DOMPurify 3.4.17 — Apache-2.0 OR MPL-2.0
+Source: https://github.com/cure53/DOMPurify
+Licenses: dompurify-apache-2.0.txt and dompurify-mpl-2.0.txt, copied from the
+installed package. Both upstream alternatives are retained.
+
+Marked 18.1.1 — MIT
+Source: https://github.com/markedjs/marked
+License: marked.txt, including the package's attribution notices.
+
+idb 8.0.4 — ISC
+Source: https://github.com/jakearchibald/idb
+License: idb.txt, copied from the installed package.
+
+@phosphor-icons/core 2.1.1 — MIT
+Source: https://github.com/phosphor-icons/core
+License: phosphor-icons.txt, copied from the installed package.
+
+Turndown 7.2.4 and turndown-plugin-gfm 1.0.2 — MIT
+Sources: https://github.com/mixmark-io/turndown
+         https://github.com/mixmark-io/turndown-plugin-gfm
+Licenses: turndown.txt and turndown-plugin-gfm.txt.
+
+Gemma 4 tokenizer, configuration, prompt template, and optional weights
+---------------------------------------------------------------------
+Model authors: Google DeepMind. Model conversion distribution: LiteRT Community.
+The exact pinned source model cards identify these Gemma 4 releases as Apache-2.0.
+License text: gemma-4-apache-2.0.txt
+Official model license: https://ai.google.dev/gemma/apache_2
+Gemma 4 uses this Apache license; the older Gemma Terms of Use are not substituted
+for the license declared by these pinned Gemma 4 model cards.
+
+Bundled data assets are copied without modifications and verified by SHA-256:
+
+tokenizer.json
+  Repository: google/gemma-4-E2B-it
+  Revision: 3e22461f65e89153144f8adb70e3b8c2cc9845a7
+  SHA-256: cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f
+  Source: https://huggingface.co/google/gemma-4-E2B-it/resolve/3e22461f65e89153144f8adb70e3b8c2cc9845a7/tokenizer.json
+
+tokenizer_config.json
+  Repository: google/gemma-4-E2B-it
+  Revision: 3e22461f65e89153144f8adb70e3b8c2cc9845a7
+  SHA-256: 9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633
+  Source: https://huggingface.co/google/gemma-4-E2B-it/raw/3e22461f65e89153144f8adb70e3b8c2cc9845a7/tokenizer_config.json
+
+chat_template.jinja
+  Repository: litert-community/gemma-4-E2B-it-litert-lm
+  Revision: a790a852d433991c0c0a41c1154cf9b3850300fa
+  SHA-256: 02b3091acf53c0b722e3db0c7a1b4980363edcc2d85549dafa339ff5dbfff629
+  Source: https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/raw/a790a852d433991c0c0a41c1154cf9b3850300fa/chat_template.jinja
+
+Optional downloaded weight artifact (not included in the extension ZIP):
+gemma-4-E2B-it-web.litertlm
+  Repository: litert-community/gemma-4-E2B-it-litert-lm
+  Revision: a790a852d433991c0c0a41c1154cf9b3850300fa
+  Bytes: 2008432640
+  SHA-256: 3a08e8d94e23b814ae5414469c370c503813949acb8ceaa17e4ebf8a35af35b5
+  Source: https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/a790a852d433991c0c0a41c1154cf9b3850300fa/gemma-4-E2B-it-web.litertlm
+
+Source model cards used to verify asset licensing:
+https://huggingface.co/google/gemma-4-E2B-it/raw/3e22461f65e89153144f8adb70e3b8c2cc9845a7/README.md
+https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/raw/a790a852d433991c0c0a41c1154cf9b3850300fa/README.md
+
+Canvas course content belongs to its respective rights holders. These software
+and model licenses do not grant rights to redistribute private course material.

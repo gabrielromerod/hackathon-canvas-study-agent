@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Study Agent</title>
+    <link rel="stylesheet" href="panel.css" />
+  </head>
+  <body>
+    <header class="panel-header">
+      <div class="heading-row">
+        <div class="course-heading">
+          <h1>Study Agent</h1>
+          <p id="course-name">Your Canvas companion</p>
+        </div>
+        <div class="header-actions">
+          <button id="new-chat" class="icon-button" aria-label="New chat" title="New chat" disabled>
+            <img src="icons/plus-square.svg" alt="" />
+          </button>
+          <button
+            id="history-toggle"
+            class="icon-button"
+            aria-label="Chat history"
+            title="Chat history"
+            disabled
+          >
+            <img src="icons/clock-counter-clockwise.svg" alt="" />
+          </button>
+          <button
+            id="settings-toggle"
+            class="icon-button"
+            aria-label="Settings"
+            title="Settings"
+            aria-expanded="false"
+          >
+            <img src="icons/gear-six.svg" alt="" />
+          </button>
+          <button
+            id="close-panel"
+            class="icon-button"
+            aria-label="Close sidebar"
+            title="Close sidebar"
+          >
+            <img src="icons/x.svg" alt="" />
+          </button>
+        </div>
+      </div>
+      <div class="context-row">
+        <button
+          id="context-chip"
+          class="context-chip"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="scope-picker"
+          disabled
+        >
+          <img src="icons/book-open.svg" alt="" /><span id="scope-label">Entire course</span
+          ><img class="chevron" src="icons/caret-down.svg" alt="" />
+        </button>
+        <button id="sources-toggle" class="text-button" aria-expanded="false">Sources</button>
+      </div>
+      <div id="scope-picker" role="dialog" aria-labelledby="scope-heading" hidden>
+        <div class="scope-picker-heading">
+          <h2 id="scope-heading">Conversation scope</h2>
+          <button id="scope-close" class="icon-button" aria-label="Close scope menu">
+            <img src="icons/x.svg" alt="" />
+          </button>
+        </div>
+        <p>Choose a course, module, section, or page for this chat.</p>
+        <div id="scope-options"></div>
+      </div>
+      <p id="scope-status" class="content-warning" role="status" hidden></p>
+      <p id="app-error" class="error-banner" role="alert" hidden></p>
+    </header>
+    <main id="panel-content">
+      <section id="model-view" class="drawer" aria-label="Settings" hidden>
+        <div class="drawer-heading">
+          <button id="model-back" class="icon-button" aria-label="Back to chat">
+            <img src="icons/arrow-left.svg" alt="" />
+          </button>
+          <h2>Settings</h2>
+        </div>
+        <p id="model-toggle" class="meta" role="status">Local model · Set up</p>
+        <div class="model-card">
+          <h3>Gemma 4 E2B <span class="meta">Recommended</span></h3>
+          <p>2.01 GB · Download once. Keep using it across extension updates.</p>
+          <p id="model-resources"></p>
+          <p id="model-status" role="status" aria-live="polite">Checking this device…</p>
+          <progress id="model-progress" max="1" value="0" hidden></progress>
+          <div class="source-toolbar">
+            <button id="model-setup" class="small-button primary">Download &amp; test E2B</button
+            ><button id="model-cancel" class="small-button" hidden>Cancel</button
+            ><button id="model-unload" class="small-button">Unload from memory</button
+            ><button id="model-remove" class="small-button">Remove downloaded model</button>
+          </div>
+          <p id="model-error" class="error-banner" role="alert" hidden></p>
+          <p id="model-benchmark" class="meta"></p>
+          <pre id="model-sample" class="model-sample" hidden></pre>
+        </div>
+        <div class="model-card">
+          <h3>Gemma 4 12B QAT</h3>
+          <p class="meta">
+            Unavailable · Its separate browser runtime has not been validated. More memory alone
+            does not enable this model.
+          </p>
+          <button class="small-button" disabled>Not available yet</button>
+        </div>
+        <div class="model-card">
+          <h3>Microphone</h3>
+          <p class="meta">
+            English dictation through Chrome’s default microphone. Audio stays on this device.
+            Dictated text remains editable.
+          </p>
+          <button id="speech-check" type="button" class="small-button">Check local dictation</button
+          ><button id="install-speech" class="small-button" type="button" hidden>
+            Install English dictation
+          </button>
+          <p id="dictation-status" class="meta" role="status" hidden></p>
+        </div>
+      </section>
+      <section id="chat-view" aria-label="Course conversation">
+        <div id="welcome" class="welcome">
+          <h2>A clearer place to start.</h2>
+          <p>Explore your course sources, or ask a question about what you’re studying.</p>
+          <div class="suggestions">
+            <button data-action="modules">
+              <img src="icons/files.svg" alt="" /><span>Browse modules</span
+              ><img src="icons/caret-right.svg" alt="" />
+            </button>
+            <button data-action="files">
+              <img src="icons/file-pdf.svg" alt="" /><span>View files</span
+              ><img src="icons/caret-right.svg" alt="" />
+            </button>
+            <button data-action="export">
+              <img src="icons/download-simple.svg" alt="" /><span>Export JSON</span
+              ><img src="icons/caret-right.svg" alt="" />
+            </button>
+          </div>
+        </div>
+        <div id="messages" role="log" aria-live="polite" aria-label="Saved messages"></div>
+      </section>
+      <section id="sources-view" class="drawer" aria-label="Course sources" hidden>
+        <div class="drawer-heading">
+          <button id="back-to-chat" class="icon-button" aria-label="Back to chat">
+            <img src="icons/arrow-left.svg" alt="" />
+          </button>
+          <h2>Course sources</h2>
+        </div>
+        <p class="scope-note">Materials linked in your course modules.</p>
+        <p id="connection-status" role="status" aria-live="polite">Connecting to Canvas…</p>
+
+        <div class="source-toolbar">
+          <button id="refresh-course" class="small-button">
+            <img src="icons/arrows-clockwise.svg" alt="" />Refresh
+          </button>
+          <button id="read-content" class="small-button">Read content</button>
+          <button id="export-course" class="small-button primary">Export JSON</button>
+        </div>
+        <p id="source-summary" role="status" aria-live="polite"></p>
+        <div class="source-filters" role="group" aria-label="Source filter">
+          <button data-filter="all" aria-pressed="true">All materials</button
+          ><button data-filter="files" aria-pressed="false">Files</button>
+        </div>
+        <div id="source-warnings" class="warnings" hidden></div>
+        <div id="source-list"></div>
+      </section>
+      <section id="history-view" class="drawer" aria-label="Saved course chats" hidden>
+        <div class="drawer-heading">
+          <button id="history-back" class="icon-button" aria-label="Back to chat">
+            <img src="icons/arrow-left.svg" alt="" />
+          </button>
+          <h2>Your conversations</h2>
+        </div>
+        <p class="scope-note">Saved on this device, for this course.</p>
+        <div id="history-list"></div>
+      </section>
+    </main>
+    <footer class="composer-footer">
+      <form id="message-form" class="composer">
+        <label class="visually-hidden" for="message-input">Message about this course</label>
+        <textarea
+          id="message-input"
+          rows="2"
+          placeholder="Save a question or a thought…"
+          disabled
+        ></textarea>
+        <div class="composer-actions">
+          <span id="draft-status">Only on this device</span
+          ><button
+            id="dictate-message"
+            class="icon-button"
+            type="button"
+            aria-label="Dictate in English"
+            title="On-device English dictation"
+          >
+            <img src="icons/microphone.svg" alt="" /></button
+          ><button id="stop-generation" class="small-button" type="button" hidden>Stop</button
+          ><button
+            id="send-message"
+            class="send-button"
+            type="submit"
+            aria-label="Save message"
+            title="Save message"
+            disabled
+          >
+            <img src="icons/arrow-up.svg" alt="" />
+          </button>
+        </div>
+      </form>
+      <p id="local-notice">Messages saved locally. Replies are not connected yet.</p>
+    </footer>
+    <script type="module" src="panel.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+node_modules/
+.DS_Store
+*.zip
+extension/
+artifacts/
+vendor/gemma-e2b/
+
+# Local credentials, browser captures, downloaded weights, and private exports.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.har
+*.crdownload
+*.litertlm
+*.gguf
+*.safetensors
+*.onnx
+*.weights
+private-exports/
+exports/
+browser-profile/
+playwright/.auth/
+canvas-*-course*.json
+
+# Local execution history and private QA notes
+/docs/superpowers/
+/design-qa.md
