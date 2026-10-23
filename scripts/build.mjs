@@ -32,6 +32,9 @@ await build({
   outfile: 'extension/model-worker.js',
 });
 await cp('node_modules/@litert-lm/core/wasm', 'extension/wasm', { recursive: true });
+await mkdir('extension/katex', { recursive: true });
+await cp('node_modules/katex/dist/katex.min.css', 'extension/katex/katex.min.css');
+await cp('node_modules/katex/dist/fonts', 'extension/katex/fonts', { recursive: true });
 await cp('vendor/gemma-e2b', 'extension/tokenizer', { recursive: true });
 const icons = [
   'plus-square',
@@ -56,6 +59,7 @@ for (const icon of icons)
   );
 for (const [from, to] of [
   ['node_modules/idb/LICENSE', 'idb.txt'],
+  ['node_modules/katex/LICENSE', 'katex.txt'],
   ['node_modules/@phosphor-icons/core/LICENSE', 'phosphor-icons.txt'],
 ])
   await copyFile(from, `extension/licenses/${to}`);

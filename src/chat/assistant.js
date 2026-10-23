@@ -1,4 +1,4 @@
-import { marked } from 'marked';
+import { parseMathMarkdown, renderMath } from './math.js';
 import createDOMPurify from 'dompurify';
 import { node } from '../panel/dom.js';
 import { validatedSourceURL, validatedSourceLink } from './source-links.js';
@@ -11,18 +11,24 @@ export function renderAssistant(
   const container = node(root, 'article', null, 'assistant-message');
   const body = node(root, 'div', null, 'assistant-body');
   const purifier = createDOMPurify(root.defaultView);
-  body.innerHTML = purifier.sanitize(
-    marked.parse(message.text || '', { breaks: true, async: false }),
-    {
-      FORBID_TAGS: ['img', 'svg', 'video', 'audio', 'iframe', 'form', 'input', 'button', 'style'],
-      FORBID_ATTR: ['style'],
-    },
-  );
+  const math = parseMathMarkdown(message.text || '');
+  body.innerHTML = purifier.sanitize(math.html, {
+    FORBID_TAGS: ['img', 'svg', 'video', 'audio', 'iframe', 'form', 'input', 'button', 'style'],
+    FORBID_ATTR: ['style'],
+  });
   const sources = new Map(
     (message.sourceRefs || []).filter((ref) => safeSource(ref)).map((ref) => [ref.id, ref]),
   );
+  const cited = new Set(
+    [...(message.text || '').matchAll(/\[((?:[SM]\d+)(?:\s*,\s*[SM]\d+)*)\]/g)].flatMap((match) =>
+      match[1].split(/\s*,\s*/),
+    ),
+  );
+  const orderedSources = [...sources.values()].sort(
+    (a, b) => Number(cited.has(b.id)) - Number(cited.has(a.id)),
+  );
   const suppliedLinks = new Map();
-  for (const ref of sources.values()) {
+  for (const ref of orderedSources) {
     const sourceURL = safeSource(ref);
     if (!suppliedLinks.has(sourceURL))
       suppliedLinks.set(sourceURL, { title: ref.title, url: sourceURL });
@@ -39,12 +45,13 @@ export function renderAssistant(
       link.rel = 'noopener noreferrer';
     }
   }
+  renderMath(body, math.expressions);
   const memories = new Map((message.memoryRefs || []).map((ref) => [ref.id, ref]));
   const walker = root.createTreeWalker(body, root.defaultView.NodeFilter.SHOW_TEXT);
   const texts = [];
   while (walker.nextNode()) texts.push(walker.currentNode);
   for (const text of texts) {
-    if (text.parentElement.closest('code,pre,a')) continue;
+    if (text.parentElement.closest('code,pre,a,.katex')) continue;
     const pattern = /\[((?:[SM]\d+)(?:\s*,\s*[SM]\d+)*)\]/g,
       fragment = root.createDocumentFragment();
     let offset = 0,

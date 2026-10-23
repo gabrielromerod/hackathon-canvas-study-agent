@@ -105,3 +105,7 @@ https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/raw/a790a852d43
 
 Canvas course content belongs to its respective rights holders. These software
 and model licenses do not grant rights to redistribute private course material.
+
+KaTeX 0.19.0 — MIT
+Local mathematical notation rendering; CSS and fonts are bundled.
+License: katex.txt

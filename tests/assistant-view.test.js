@@ -215,3 +215,57 @@ test('source links are visible below the reply and deduplicated across repeated 
     true,
   );
 });
+
+test('renders inline and display fractions as MathML while preserving LaTeX escapes and code examples', () => {
+  const { document, chat } = setup({
+    text:
+      String.raw`A fraction $\frac{1}{2}$ and set $\{x\}$.
+
+$$\frac{x+1}{x-1}$$
+
+Code: ` +
+      '`$\\frac{1}{2}$`' +
+      String.raw` and escaped \$5.`,
+  });
+  renderMessages(document, chat);
+  assert.equal(document.querySelectorAll('.katex').length, 3);
+  assert.equal(document.querySelectorAll('math mfrac').length, 2);
+  assert.equal(document.querySelectorAll('.katex-display').length, 1);
+  assert.match(document.querySelector('.assistant-body code').textContent, /\\frac/);
+  assert.match(document.querySelector('.assistant-body').textContent, /escaped \$5/);
+  assert.match(document.querySelectorAll('math')[1].textContent, /\{x\}/);
+});
+
+test('math commands cannot create links, scripts, or reuse macros across expressions', () => {
+  const { document, chat } = setup({
+    text: String.raw`$\href{https://evil.test}{click}$ $\text{<script>alert(1)</script>}$ $\gdef\privateMacro{secret}\privateMacro$ $\privateMacro$`,
+  });
+  renderMessages(document, chat);
+  assert.equal(document.querySelector('a,script,img,iframe'), null);
+  assert.ok(document.querySelector('math'));
+  const finalMath = [...document.querySelectorAll('math')].at(-1);
+  assert.match(finalMath.textContent, /privateMacro/);
+  assert.doesNotMatch(finalMath.textContent, /secret/);
+});
+
+test('visible source links prioritize the source actually cited in the answer', () => {
+  const { document, chat } = setup({
+    text: 'The requirement is on the Week One road map [S8].',
+    sourceRefs: [
+      {
+        id: 'S1',
+        courseId: '101',
+        title: 'Week Two',
+        url: 'https://msjc.instructure.com/courses/101/pages/week-two',
+      },
+      {
+        id: 'S8',
+        courseId: '101',
+        title: 'Week One',
+        url: 'https://msjc.instructure.com/courses/101/pages/week-one',
+      },
+    ],
+  });
+  renderMessages(document, chat);
+  assert.equal(document.querySelector('.reply-source-links a').textContent, 'Week One');
+});

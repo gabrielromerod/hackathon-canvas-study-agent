@@ -770,3 +770,25 @@ textarea,
   font-size: 11px;
   padding: 0 0 6px;
 }
+.assistant-body .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0;
+}
+.reply-source-links {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.reply-source-links p {
+  margin: 3px 0;
+}
+.reply-source-links a {
+  color: #0866ed;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.reply-source-links a:hover {
+  text-decoration: underline;
+}
