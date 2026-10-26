@@ -16,9 +16,14 @@ for (const path of [
   'docs/local-ai.md',
   'docs/submission.md',
   'docs/architecture.md',
+  'docs/usage.md',
+  'docs/demo.md',
+  'docs/demo-script.md',
+  'demo/README.md',
 ])
   files[path] = new Uint8Array(await readFile(path));
 await add('public/licenses');
+await add('docs/media');
 files['README.md'] = new Uint8Array(await readFile('README.md'));
 const zip = zipSync(files, { level: 9 });
 await writeFile('canvas-study-agent-extension.zip', zip);

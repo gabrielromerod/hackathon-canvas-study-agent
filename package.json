@@ -9,8 +9,9 @@
     "check": "node scripts/check.mjs",
     "package": "npm run build && npm run check && node scripts/package.mjs",
     "preview": "node scripts/preview.mjs",
-    "format": "prettier --write \"src/**/*.js\" \"public/*.{json,html,css}\" \"scripts/*.mjs\" \"tests/**/*.js\" \"tests/fixtures/preview-course.json\" package.json",
-    "format:check": "prettier --check \"src/**/*.js\" \"public/*.{json,html,css}\" \"scripts/*.mjs\" \"tests/**/*.js\" \"tests/fixtures/preview-course.json\" package.json"
+    "format": "prettier --write \"src/**/*.js\" \"public/*.{json,html,css}\" \"scripts/*.mjs\" \"tests/**/*.js\" \"tests/fixtures/preview-course.json\" \"demo/*.{js,html,css}\" package.json",
+    "format:check": "prettier --check \"src/**/*.js\" \"public/*.{json,html,css}\" \"scripts/*.mjs\" \"tests/**/*.js\" \"tests/fixtures/preview-course.json\" \"demo/*.{js,html,css}\" package.json",
+    "demo:build": "node scripts/portfolio.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Canvas Study Agent · Live product demo</title>
+    <link rel="stylesheet" href="demo.css" />
+  </head>
+  <body>
+    <header class="demo-toolbar">
+      <a class="brand" href="https://github.com/gabrielromerod/hackathon-canvas-study-agent"
+        ><span class="brand-icon">S</span> Canvas Study Agent</a
+      ><span class="demo-label"><i></i> Live local AI · Synthetic demo course</span
+      ><button id="record">Record demo</button><button id="stop" hidden>Stop recording</button>
+    </header>
+    <div class="workspace">
+      <aside class="course-nav">
+        <div class="course-label">YOUR WORKSPACE</div>
+        <h2>Calculus I</h2>
+        <p class="term">Demo course · Fall 2026</p>
+        <div class="nav-divider"></div>
+        <p class="nav-label">COURSE MATERIAL</p>
+        <button data-item="1001" class="active">01 <span>Rational functions</span></button
+        ><button data-item="1002">02 <span>Study checklist</span></button
+        ><button data-item="2001">03 <span>Introduction to limits</span></button
+        ><button data-item="2002">04 <span>Review notes</span></button>
+        <div class="nav-footer">
+          Original example materials.<br />No student or private course data.
+        </div>
+      </aside>
+      <main class="lesson">
+        <div class="breadcrumb">
+          Calculus I <span>/</span> <span id="week">Week 1 · Functions & graphs</span>
+        </div>
+        <div class="lesson-badge">COURSE READING</div>
+        <article id="lesson-content"></article>
+        <div class="lesson-footer">
+          <span>Designed for learning, with your sources in view.</span
+          ><span>Canvas Study Agent</span>
+        </div>
+      </main>
+      <iframe
+        id="agent"
+        src="demo-panel.html"
+        title="Study Agent — actual extension interface"
+      ></iframe>
+    </div>
+    <script src="demo.js" type="module"></script>
+  </body>
+</html>

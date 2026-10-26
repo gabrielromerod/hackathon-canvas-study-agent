@@ -10,6 +10,7 @@ async function check(directory) {
 }
 await check('src');
 await check('scripts');
+await check('demo');
 const manifest = JSON.parse(await readFile('extension/manifest.json', 'utf8'));
 for (const path of [
   manifest.side_panel.default_path,
