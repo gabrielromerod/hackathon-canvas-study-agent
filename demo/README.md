@@ -16,4 +16,4 @@ Close other Study Agent panels, then reload the existing unpacked extension **af
 - **Record demo** uses Chrome's screen-capture picker. Select only this demo tab; the browser may also offer other capture surfaces. With the demo-tab selection, capture excludes other tabs and browser chrome. Microphone and system audio are disabled. **Stop recording** downloads a WebM; no capture is uploaded.
 - The production build (`npm run build`) does not include this optional workspace. It preserves the original native sidebar behavior.
 
-The published video is edited for pacing. Its narration was produced separately using Gemini 3.8 TTS from the public script; this is not an inference or speech dependency of the application. Music is original procedural audio. See [the public script and provenance](../docs/demo-script.md).
+The published video is edited for pacing, with sped-up segments labeled on screen. It has no voiceover; captions and an original synthesized score carry it. See [the shot list](../docs/demo-script.md) and [how the film is rendered](../scripts/demo-video/README.md).

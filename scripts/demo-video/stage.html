@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Canvas Study Agent · demo film</title>
+<style>
+  :root {
+    --deep: #0F2A30; --panel: #163B40; --ink: #F8FAF7; --muted: #A9C7C0;
+    --mint: #6EE7B7; --amber: #FBBF24; --gemma: #3B6FE0; --webgpu: #0B7F73;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--deep); }
+  body { font-family: Inter, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  .abs { position: absolute; }
+  #bg { inset: 0; position: absolute;
+        background: radial-gradient(1100px 800px at var(--gx, 70%) var(--gy, 45%), #1E5A52 0%, rgba(15,42,48,0) 70%), var(--deep); }
+  .display { font-family: "Inter Display", Inter, sans-serif; font-weight: 700; letter-spacing: -0.02em; }
+  .pill { display: inline-flex; align-items: center; gap: 14px; border-radius: 999px; font-weight: 700; white-space: nowrap; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; background: #34D399; box-shadow: 0 0 14px #34D399; }
+
+  /* product view */
+  #app { overflow: hidden; border-radius: 22px; background: #fff;
+         box-shadow: 0 40px 90px rgba(0,0,0,0.55), 0 0 0 1.5px rgba(110,231,183,0.35); }
+  #raw { position: absolute; left: 0; top: 0; transform-origin: 0 0; image-rendering: auto; }
+  #ring { border: 5px solid var(--amber); border-radius: 14px; box-shadow: 0 0 24px rgba(251,191,36,0.55); }
+
+  /* captions */
+  .cap { left: 140px; width: 940px; }
+  .chap { font-size: 26px; font-weight: 700; color: var(--mint); letter-spacing: 0.18em; }
+  .head { font-size: 92px; line-height: 1.04; margin-top: 22px; }
+  .sub { font-size: 34px; line-height: 1.38; color: var(--muted); margin-top: 30px; max-width: 900px; }
+  .badge { margin-top: 36px; font-size: 24px; padding: 10px 20px; border: 2px solid rgba(110,231,183,0.5); color: var(--mint); }
+  .amber { color: var(--amber); }
+
+  /* problem rows */
+  .row { left: 160px; width: 860px; height: 84px; border-radius: 18px; background: rgba(22,59,64,0.9);
+         border: 1.5px solid rgba(169,199,192,0.22); display: flex; align-items: center; gap: 24px; padding: 0 28px; font-size: 34px; }
+  .num { width: 44px; height: 44px; border-radius: 50%; background: rgba(169,199,192,0.18); color: var(--muted);
+         display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; flex: none; }
+  .strike { position: absolute; left: 96px; top: 41px; height: 4px; background: #F87171; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div id="bg"></div>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="mark" viewBox="64 109 76 76">
+    <rect x="64" y="109" width="76" height="76" rx="20" fill="#21434b"/>
+    <path d="M78 137 Q91 130 102 138 Q113 130 126 137 V166 Q113 159 102 168 Q91 159 78 166 Z" fill="none" stroke="#b9edd6" stroke-width="2.7" stroke-linejoin="round"/>
+    <path d="M102 138 V168" fill="none" stroke="#b9edd6" stroke-width="2.7" stroke-linecap="round"/>
+    <path d="M121 116 L123.6 123.4 L131 126 L123.6 128.6 L121 136 L118.4 128.6 L111 126 L118.4 123.4 Z" fill="#b9edd6"/>
+  </symbol>
+  <symbol id="star" viewBox="0 0 24 24"><path d="M12 1.5l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.6 5.6 21.1 7 14l-5.3-5 7.2-.9z" fill="#FBBF24"/></symbol>
+</svg>
+
+<!-- S1 + S10: title / end card -->
+<div id="title" class="abs" style="left:0;top:0;width:1920px;height:1080px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div id="t-pill" class="pill" style="font-size:26px;padding:14px 28px;background:rgba(23,63,59,0.9);border:2px solid var(--mint);color:#A7F3D0;letter-spacing:0.12em;">
+    <svg width="30" height="30"><use href="#star"/></svg>WINNER · BEST OPEN-SOURCE AI PROJECT</div>
+  <div id="t-name" style="display:flex;align-items:center;gap:36px;margin-top:56px;">
+    <svg width="132" height="132"><use href="#mark"/></svg>
+    <div class="display" style="font-size:132px;">Canvas Study Agent</div>
+  </div>
+  <div id="t-tag" style="font-size:48px;color:var(--ink);margin-top:40px;">Local AI for everyone.</div>
+  <div id="t-sub" style="font-size:34px;color:var(--muted);margin-top:18px;">One Chrome extension. Gemma on your own GPU.</div>
+  <div id="t-url" style="font-size:34px;color:var(--mint);margin-top:52px;font-weight:600;">github.com/gabrielromerod/hackathon-canvas-study-agent</div>
+  <div id="t-chips" style="display:flex;gap:18px;margin-top:40px;font-size:26px;font-weight:700;">
+    <span class="pill" style="padding:12px 26px;background:var(--gemma);">Gemma 4 E2B</span>
+    <span class="pill" style="padding:12px 26px;background:var(--webgpu);">WebGPU</span>
+    <span class="pill" style="padding:12px 26px;border:2px solid rgba(169,199,192,0.6);color:#DCEBE6;">Chrome extension</span>
+    <span class="pill" style="padding:12px 26px;border:2px solid rgba(169,199,192,0.6);color:#DCEBE6;">MIT</span>
+  </div>
+  <div id="t-foot" style="position:absolute;bottom:64px;font-size:24px;color:#7FA39B;">Hacktoberfest Hack Day Menifee × MSJC CSC Club · October 2026</div>
+</div>
+
+<!-- S2: problem -->
+<div id="problem" class="abs" style="left:0;top:0;width:1920px;height:1080px;">
+  <div class="abs display" style="left:160px;top:220px;font-size:76px;width:1700px;">Running AI locally usually means setup.</div>
+  <div class="abs row" id="r0" style="top:400px"><div class="num">1</div>Install LM Studio or Ollama<div class="strike" id="s0"></div></div>
+  <div class="abs row" id="r1" style="top:510px"><div class="num">2</div>Find and download a model<div class="strike" id="s1"></div></div>
+  <div class="abs row" id="r2" style="top:620px"><div class="num">3</div>Start a local server<div class="strike" id="s2"></div></div>
+  <div class="abs row" id="r3" style="top:730px"><div class="num">4</div>Connect your own data<div class="strike" id="s3"></div></div>
+  <div id="answer" class="abs" style="left:1100px;top:400px;width:660px;height:414px;border-radius:28px;background:linear-gradient(160deg,#1C5A50,#123A3E);border:2.5px solid var(--mint);padding:44px 48px;box-shadow:0 30px 80px rgba(0,0,0,0.45);">
+    <div style="font-size:24px;font-weight:700;color:var(--mint);letter-spacing:0.16em;">CANVAS STUDY AGENT</div>
+    <div class="display" style="font-size:64px;line-height:1.05;margin-top:22px;">Add one Chrome extension.</div>
+    <div style="font-size:30px;line-height:1.4;color:#CFE7DF;margin-top:26px;">Gemma runs on your GPU through WebGPU. No server, no API key.</div>
+  </div>
+</div>
+
+<!-- full-layout headline (S3 before the zoom) -->
+<div id="fullhead" class="abs display" style="left:240px;top:150px;font-size:72px;width:1500px;">A study sidebar, right beside your lesson.</div>
+
+<!-- product -->
+<div id="app" class="abs"><img id="raw" alt=""></div>
+<div id="ring" class="abs"></div>
+
+<!-- captions (left column) -->
+<div id="captions"></div>
+
+<!-- stat for S8 -->
+<div id="stat" class="abs" style="left:140px;top:700px;display:flex;align-items:center;gap:30px;">
+  <div class="display" style="font-size:150px;color:var(--mint);line-height:1;">0</div>
+  <div style="font-size:32px;line-height:1.3;color:var(--ink);">model downloads<br><span style="color:var(--muted)">after the first setup</span></div>
+</div>
+
+<!-- architecture -->
+<div id="arch" class="abs" style="left:0;top:0;width:1920px;height:1080px;">
+  <div class="abs display" style="left:120px;top:96px;font-size:64px;">Everything runs inside your browser.</div>
+  <img class="abs" src="../../docs/media/architecture.svg" style="left:120px;top:250px;width:1680px;height:709px;" alt="">
+</div>
+
+<!-- footer elements -->
+<div id="progress" class="abs" style="left:140px;top:944px;display:flex;gap:12px;"></div>
+<div id="honest" class="abs pill" style="left:140px;top:984px;font-size:22px;padding:10px 20px;background:rgba(23,63,59,0.85);color:#A7F3D0;">
+  <div class="dot" style="width:10px;height:10px;"></div>Synthetic demo course · real Gemma output</div>
+
+<script>
+const FPS = 30;
+const RAW = new URLSearchParams(location.search).get('raw') || '../../artifacts/demo-video/raw';
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const out = (k) => 1 - Math.pow(1 - k, 3);
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+// opacity window with fades
+const win = (t, a, b, fi = 0.45, fo = 0.45) => Math.min(out(prog(t, a, a + fi)), 1 - prog(t, b - fo, b));
+const $ = (id) => document.getElementById(id);
+const show = (el, o, dy = 0, sc = 1) => { el.style.opacity = o; el.style.transform = `translateY(${dy}px) scale(${sc})`; el.style.visibility = o <= 0.001 ? 'hidden' : 'visible'; };
+
+// ---------- camera ----------
+const FULL = { c: [240, 300, 1440, 708], s: [0, 0, 1920] };
+const FOCUS = { c: [1200, 68, 475, 944], s: [1480, 70, 440] };
+function camAt(t) {
+  if (t < 12.6) return FULL;
+  if (t < 14.2) {
+    const k = ease(prog(t, 12.6, 14.2));
+    return { c: FULL.c.map((v, i) => lerp(v, FOCUS.c[i], k)), s: FULL.s.map((v, i) => lerp(v, FOCUS.s[i], k)) };
+  }
+  return FOCUS;
+}
+
+// raw-time mapping per scene: [start, end, rawStart, speed, rawMax]
+const MAP = [
+  [10, 16, 1, 1, 99], [16, 22, 7, 2, 99], [22, 29, 19, 1, 26.3], [29, 32, 81, 1, 99],
+  [32, 38, 89, 2.3, 102.8], [38, 44, 105, 2, 117], [44, 50, 129, 1, 133.4],
+];
+function rawTime(t) {
+  for (const [a, b, r, sp, mx] of MAP) if (t >= a && t < b) return Math.min(mx, r + (t - a) * sp);
+  return null;
+}
+
+// captions: [start, end, chapter, headlineHTML, sub, badge]
+const CAPS = [
+  [14.0, 16.0, '', 'Your course,<br>in a sidebar.', 'It follows the lesson you are reading.', ''],
+  [16.0, 22.0, '01 · CONTEXT', 'Choose what<br>it reads.', 'This page, a module, or the whole course.', '2× speed'],
+  [22.0, 32.0, '02 · ASK', 'Ask your course.<br>Get <span class="amber">sources</span> back.', 'Gemma 4 E2B answers on your own GPU.', 'Real time'],
+  [32.0, 38.0, '03 · EVIDENCE', 'Check the<br>evidence.', 'Every source is readable, right in the sidebar.', '2.3× speed'],
+  [38.0, 44.0, '04 · MEMORY', 'It remembers.', 'A new chat picks up where the last one left off.', '2× speed'],
+  [44.0, 50.0, '05 · LOCAL', 'Download once.<br>Then it is all local.', '2.01 GB, checksum-verified, cached in your browser.', ''],
+];
+const capEls = CAPS.map((c) => {
+  const d = document.createElement('div');
+  d.className = 'abs cap';
+  d.style.top = '0px';
+  d.innerHTML = (c[2] ? `<div class="chap">${c[2]}</div>` : '') +
+    `<div class="head display">${c[3]}</div><div class="sub">${c[4]}</div>` +
+    (c[5] ? `<div class="pill badge"><div class="dot" style="width:10px;height:10px"></div>${c[5]}</div>` : '');
+  $('captions').appendChild(d);
+  return d;
+});
+// vertically centre each caption block on the left
+function layoutCaps() { capEls.forEach((d) => { d.style.top = Math.round(500 - d.offsetHeight / 2) + 'px'; }); }
+
+for (let i = 0; i < 5; i++) { const s = document.createElement('div'); s.style.cssText = 'width:84px;height:8px;border-radius:4px;'; $('progress').appendChild(s); }
+
+// ring targets in raw coordinates: [start, end, x0, y0, x1, y1]
+const RINGS = [
+  [29.6, 32.0, 1766, 539, 1799, 563],
+  [45.2, 47.6, 1508, 292, 1790, 318],
+  [47.6, 50.0, 1508, 524, 1856, 556],
+];
+
+let lastSrc = '';
+async function render(f) {
+  const t = f / FPS;
+  // background glow drifts slightly
+  const bg = $('bg');
+  bg.style.setProperty('--gx', `${lerp(60, 78, (Math.sin(t / 9) + 1) / 2)}%`);
+  bg.style.setProperty('--gy', `${lerp(38, 55, (Math.cos(t / 11) + 1) / 2)}%`);
+
+  // ---- title (S1) and end card (S10)
+  const inTitle = t < 4.0, inEnd = t >= 54.0;
+  const tO = inTitle ? 1 - prog(t, 3.5, 4.0) : inEnd ? out(prog(t, 54.0, 54.6)) : 0;
+  show($('title'), tO, 0, inTitle ? lerp(1, 0.97, prog(t, 3.5, 4.0)) : lerp(0.98, 1, out(prog(t, 54, 55))));
+  const tb = inTitle ? 0 : 54.0;
+  show($('t-pill'), out(prog(t, tb + 0.5, tb + 1.0)), lerp(20, 0, out(prog(t, tb + 0.5, tb + 1.0))));
+  show($('t-name'), out(prog(t, tb + 0.1, tb + 0.8)), lerp(30, 0, out(prog(t, tb + 0.1, tb + 0.8))));
+  show($('t-tag'), out(prog(t, tb + 0.9, tb + 1.5)), lerp(20, 0, out(prog(t, tb + 0.9, tb + 1.5))));
+  show($('t-sub'), inTitle ? out(prog(t, 1.4, 2.0)) : 0, lerp(16, 0, out(prog(t, 1.4, 2.0))));
+  $('t-sub').style.display = inEnd ? 'none' : 'block';
+  $('t-url').style.display = inEnd ? 'block' : 'none';
+  $('t-chips').style.display = inEnd ? 'flex' : 'none';
+  show($('t-url'), inEnd ? out(prog(t, 55.4, 56.0)) : 0);
+  show($('t-chips'), inEnd ? out(prog(t, 55.9, 56.5)) : 0, lerp(16, 0, out(prog(t, 55.9, 56.5))));
+  show($('t-foot'), inEnd ? out(prog(t, 56.4, 57.0)) : inTitle ? out(prog(t, 1.8, 2.4)) : 0);
+
+  // ---- problem (S2)
+  const pO = win(t, 4.0, 10.0, 0.4, 0.4);
+  show($('problem'), pO);
+  for (let i = 0; i < 4; i++) {
+    const a = 4.3 + i * 0.22;
+    const row = $('r' + i);
+    const struck = prog(t, 6.5 + i * 0.2, 6.9 + i * 0.2);
+    row.style.opacity = out(prog(t, a, a + 0.4)) * lerp(1, 0.38, struck);
+    row.style.transform = `translateX(${lerp(-40, 0, out(prog(t, a, a + 0.4)))}px)`;
+    $('s' + i).style.width = `${lerp(0, 600, ease(struck))}px`;
+  }
+  const ak = out(prog(t, 7.6, 8.3));
+  $('answer').style.opacity = ak;
+  $('answer').style.transform = `translateX(${lerp(60, 0, ak)}px) scale(${lerp(0.96, 1, ak)})`;
+
+  // ---- full headline (S3 before zoom)
+  show($('fullhead'), win(t, 10.2, 12.9, 0.5, 0.4), lerp(20, 0, out(prog(t, 10.2, 10.7))));
+
+  // ---- product
+  const rt = rawTime(t);
+  const app = $('app');
+  if (rt !== null) {
+    const appO = Math.min(out(prog(t, 10.0, 10.7)), 1 - prog(t, 49.6, 50.0));
+    const cam = camAt(t);
+    const [cx, cy, cw, ch] = cam.c, [sx, sy, sw] = cam.s;
+    const sc = cw / sw;
+    app.style.left = cx + 'px'; app.style.top = cy + 'px'; app.style.width = cw + 'px'; app.style.height = ch + 'px';
+    app.style.opacity = appO; app.style.visibility = 'visible';
+    app.style.transform = `translateY(${lerp(40, 0, out(prog(t, 10.0, 10.7)))}px)`;
+    const img = $('raw');
+    const src = `${RAW}/f_${String(Math.round(rt * 30)).padStart(5, '0')}.jpg`;
+    if (src !== lastSrc) { img.src = src; lastSrc = src; await img.decode(); }
+    img.style.transform = `translate(${-sx * sc}px, ${-sy * sc}px) scale(${sc})`;
+    // ring
+    const ring = $('ring');
+    let ro = 0;
+    for (const [a, b, x0, y0, x1, y1] of RINGS) {
+      if (t >= a && t < b) {
+        ro = win(t, a, b, 0.3, 0.3);
+        const pad = 8 + 10 * (1 - out(prog(t, a, a + 0.35)));
+        ring.style.left = cx + (x0 - sx) * sc - pad + 'px'; ring.style.top = cy + (y0 - sy) * sc - pad + 'px';
+        ring.style.width = (x1 - x0) * sc + 2 * pad + 'px'; ring.style.height = (y1 - y0) * sc + 2 * pad + 'px';
+      }
+    }
+    show(ring, ro);
+  } else { app.style.visibility = 'hidden'; show($('ring'), 0); }
+
+  // ---- captions
+  CAPS.forEach((c, i) => {
+    const o = win(t, c[0], c[1], 0.45, i === CAPS.length - 1 ? 0.4 : 0.3);
+    show(capEls[i], o, lerp(24, 0, out(prog(t, c[0], c[0] + 0.5))));
+  });
+  show($('stat'), win(t, 47.4, 50.0, 0.5, 0.4), lerp(20, 0, out(prog(t, 47.4, 47.9))));
+
+  // ---- progress + honesty label
+  const pr = win(t, 16.0, 50.0, 0.4, 0.4);
+  show($('progress'), pr);
+  const chapter = t < 22 ? 0 : t < 32 ? 1 : t < 38 ? 2 : t < 44 ? 3 : 4;
+  [...$('progress').children].forEach((s, i) => { s.style.background = i <= chapter ? '#6EE7B7' : 'rgba(169,199,192,0.22)'; });
+  show($('honest'), win(t, 14.0, 50.0, 0.5, 0.4));
+
+  // ---- architecture (S9)
+  const arO = win(t, 50.0, 54.0, 0.5, 0.4);
+  show($('arch'), arO, 0, lerp(1.02, 1, out(prog(t, 50, 51))));
+  return true;
+}
+window.render = render;
+window.ready = document.fonts.ready.then(() => { layoutCaps(); return true; });
+</script>
+</body>
+</html>
