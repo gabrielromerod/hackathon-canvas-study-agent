@@ -11,6 +11,10 @@
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-6EE7B7?style=flat-square&labelColor=0F2A30"></a>
 </p>
 
+<p align="center">
+  <b>Winner of Best Open-Source AI Project</b> at <a href="https://mlh.com/events/hacktoberfest-hack-day-menifee-x-msjc-csc-club"><b>Hacktoberfest Hack Day Menifee × MSJC CSC Club</b></a> · October 23, 2026
+</p>
+
 **Local AI for everyone.** Running a model on your own machine usually means installing LM Studio or Ollama, picking a model, starting a server and wiring up your data. Canvas Study Agent is a Chrome extension instead: it reads your Canvas course and answers questions in a sidebar, with **Gemma 4 E2B running on your own GPU through WebGPU**. No server, no API key, and no prompt ever leaves your device.
 
 <p align="center">

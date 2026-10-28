@@ -57,6 +57,7 @@
 <div id="title" class="abs" style="left:0;top:0;width:1920px;height:1080px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
   <div id="t-pill" class="pill" style="font-size:26px;padding:14px 28px;background:rgba(23,63,59,0.9);border:2px solid var(--mint);color:#A7F3D0;letter-spacing:0.12em;">
     <svg width="30" height="30"><use href="#star"/></svg>WINNER · BEST OPEN-SOURCE AI PROJECT</div>
+  <div id="t-event" style="font-size:32px;font-weight:600;color:#A7F3D0;margin-top:22px;">Hacktoberfest Hack Day Menifee × MSJC CSC Club · October 2026</div>
   <div id="t-name" style="display:flex;align-items:center;gap:36px;margin-top:56px;">
     <svg width="132" height="132"><use href="#mark"/></svg>
     <div class="display" style="font-size:132px;">Canvas Study Agent</div>
@@ -194,6 +195,7 @@ async function render(f) {
   show($('title'), tO, 0, inTitle ? lerp(1, 0.97, prog(t, 3.5, 4.0)) : lerp(0.98, 1, out(prog(t, 54, 55))));
   const tb = inTitle ? 0 : 54.0;
   show($('t-pill'), out(prog(t, tb + 0.5, tb + 1.0)), lerp(20, 0, out(prog(t, tb + 0.5, tb + 1.0))));
+  show($('t-event'), out(prog(t, tb + 0.7, tb + 1.2)), lerp(14, 0, out(prog(t, tb + 0.7, tb + 1.2))));
   show($('t-name'), out(prog(t, tb + 0.1, tb + 0.8)), lerp(30, 0, out(prog(t, tb + 0.1, tb + 0.8))));
   show($('t-tag'), out(prog(t, tb + 0.9, tb + 1.5)), lerp(20, 0, out(prog(t, tb + 0.9, tb + 1.5))));
   show($('t-sub'), inTitle ? out(prog(t, 1.4, 2.0)) : 0, lerp(16, 0, out(prog(t, 1.4, 2.0))));
@@ -202,7 +204,7 @@ async function render(f) {
   $('t-chips').style.display = inEnd ? 'flex' : 'none';
   show($('t-url'), inEnd ? out(prog(t, 55.4, 56.0)) : 0);
   show($('t-chips'), inEnd ? out(prog(t, 55.9, 56.5)) : 0, lerp(16, 0, out(prog(t, 55.9, 56.5))));
-  show($('t-foot'), inEnd ? out(prog(t, 56.4, 57.0)) : inTitle ? out(prog(t, 1.8, 2.4)) : 0);
+  show($('t-foot'), 0);
 
   // ---- problem (S2)
   const pO = win(t, 4.0, 10.0, 0.4, 0.4);
